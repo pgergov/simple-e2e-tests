@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.5.7
+
+  backend:
+    depends_on:
+      - db
+    build: ./backend
+    environment:
+      - DJANGO_SETTINGS_MODULE=project.docker_settings
+    command: ["./wait-for-it.sh", "db:5432", "--timeout=10", "--", "/bin/bash", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+    ports:
+      - 8000:8000
+
+  frontend:
+    build: ./frontend
+    command: bash -c "yarn start"
+    ports:
+      - 3000:3000
