@@ -1,0 +1,8 @@
+# Emacs
+\#*\#
+*.elc
+.\#*
+*.*~
+.projectile
+auto-save-list
+tramp
